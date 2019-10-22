@@ -1,0 +1,19 @@
+ucUnit TestingInit of hardware finished.
+
+                                        ======================================
+                                                                              Memory Allocate
+                                                                                             ======================================
+      ../source/unitest2.c:60: failed:IsEqual(test,pointer)
+                                                           ../source/unitest2.c:61: failed:IsInRange(*test,536866816,536870911)
+  ../source/unitest2.c:62: failed:IsInRange(*test,536870912,536883199)
+                                                                      ======================================
+                                                                                                            ../source/unitest2.c:63: failed:EndTestcase()
+                            ======================================
+
+                                                                  **************************************
+                                                                                                        Testcases: failed: 1
+                                                                                                                                       passed: 0
+                   Checks:    failed: 3
+                                                  passed: 0
+                                                           **************************************
+                                                                                                 System shutdown.
