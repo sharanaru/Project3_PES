@@ -25,6 +25,7 @@ Makefile runs ***arm-none-eabi-gcc*** as compiler for FB routines and ***gcc*** 
      + Default folders with no change -CMSIS,startup,drivers,utilities
      + Debug - Contains .o files after compilation and also contains .axf binary and .exe files
 + Readme 
++ UML Diagrams
 + PDF contains make file and code and readme
 
 
