@@ -1,6 +1,6 @@
 //
 /**
- * @file    PROJECT3.c
+ * @file    PROJECT3.c PES project 3 Main routine - SHaran Arumugam and Abhijeet 
  * @brief   Application entry point.
  */
 #ifdef KL25Z
@@ -17,15 +17,15 @@
 #include "led_board.h"
 #include<stdint.h>
 
-char pass[] = "CORRECT\n\r";
-char fail[] = "WRONG\n\r";
-char invert[] = "First Invert\n\r";
-char sinvert[] = "Second Invert\n\r";
+char pass[] = "CORRECT\n\r";//sets message for valid entry in memory
+char fail[] = "WRONG\n\r";//sets message for invalid entry in memory
+char invert[] = "First Invert\n\r";//sets message after first toggle entry in memory
+char sinvert[] = "Second Invert\n\r";//sets message after second toggle in memory
 int main(void) {
-	uint8_t flag=0;
-LED_Initialise();
+	uint8_t flag=0;//flag for logger enable or disable
+LED_Initialise();//initialises led pins
   	/* Init board hardware. */
-#ifdef KL25Z
+#ifdef KL25Z //board iniitlsiation routine only for KL25Z
 	BOARD_InitBootPins();
     BOARD_InitBootClocks();
     BOARD_InitBootPeripherals();
@@ -33,53 +33,53 @@ LED_Initialise();
     BOARD_InitDebugConsole();
 #endif
 #ifdef ENABLE
-flag = Log_enable();
+flag = Log_enable(); // enables logger
 #endif
 
 # ifdef DISABLE
-flag=Log_disable();
+flag=Log_disable(); //disables logger
 #endif
-  //printf("Enter Bytes to be allocated\n");
+  
   int a=16;
-  //scanf("%d\n", &a);
+  
   uint32_t * memoryblock = NULL;
-  memoryblock = allocate_words(a);
-  write_pattern(memoryblock, a, 'a');
+  memoryblock = allocate_words(a); //creates memory block of size 16 (a) bytes
+  write_pattern(memoryblock, a, 'a'); //writes random pattern using seed of 'a'
 
   uint8_t * verify = NULL;
-  verify = display_memory(memoryblock, a);
+  verify = display_memory(memoryblock, a);//getting values stored at malloc
 
   if (1 == flag) {
 
 
-    Log_data((uint32_t *)verify, a);
+    Log_data((uint32_t *)verify, a); //logger to print pattern and array containig pattern from memoryblock 
 
   }
   uint32_t *errors = NULL;
-  errors = verify_pattern(memoryblock, a, 'a');
+  errors = verify_pattern(memoryblock, a, 'a'); //checking for errors
 
   if (1 == flag) {
 
     for (int i = 0; i < a; i++) {
       if (*(errors + i) != 0) {
 
-        log_string(fail);
-        log_integer(*(errors+i));
+        log_string(fail); //prints fail msg when pattern and value at memory dont match
+        log_integer(*(errors+i));//[rints address where it failed
       } else {
-        //printf("correct\n\r");
-        log_string(pass);
-        log_integer(*(errors+i));
+        
+        log_string(pass);//prints pass message
+        log_integer(*(errors+i));//returns o as address is not stored when value at memory is  same as expected pattern
       }
     }
     printf("\n");
   }
 
-  write_memory(memoryblock, 0xFFEE);
+  write_memory(memoryblock, 0xFFEE);//writes value to memory block as FFEE is 2 bytes writes FF,EE at 2 succesive locations 
   verify = NULL;
-  verify = display_memory(memoryblock, a);
+  verify = display_memory(memoryblock, a);//returns array containing values stored at memoryblock 
   uint32_t * error = NULL;
-  error = verify_pattern(memoryblock, a, 'a');
-  for (int i = 0; i < a; i++) {
+  error = verify_pattern(memoryblock, a, 'a');//returns array containing addresses where error is present
+  for (int i = 0; i < a; i++) {  //to print and set led for pass and fail conditions
     if ( * (error + i) != 0)
     {
       if (1 == flag) {
@@ -98,11 +98,11 @@ flag=Log_disable();
     }
 
   }
-   write_pattern(memoryblock, a, 'a');
+   write_pattern(memoryblock, a, 'a'); //writing random pattern to memoryblock using same seed as before
   verify = NULL;
-  verify = display_memory(memoryblock, a);
+  verify = display_memory(memoryblock, a);//returns array containing addresses where error is present
 
-  if (1 == flag) {
+  if (1 == flag) { //prints data and address at verify
 
 
     Log_data((uint32_t *)verify, a);
@@ -132,7 +132,7 @@ flag=Log_disable();
   }
   uint32_t * offsetaddress = NULL;
 
-  offsetaddress = get_address(memoryblock, 4);
+  offsetaddress = get_address(memoryblock, 4);//calculates address +offset and sets a pointer to it
 
    invert_block(offsetaddress, 4);
   uint8_t * invertwrite = NULL;
@@ -143,8 +143,8 @@ flag=Log_disable();
     log_integer( *invertwrite);
   }
   uint32_t * err = NULL;;
-  err = verify_pattern(memoryblock, a, 'a');
-  for (int i = 0; i < a; i++) {
+  err = verify_pattern(memoryblock, a, 'a'); // returns at address where error is found 
+  for (int i = 0; i < a; i++) { //printing out error check results
     if ( * (err + i) != 0)
     {
       if (1 == flag)
@@ -161,14 +161,14 @@ flag=Log_disable();
   }
   }
 
-   invert_block(offsetaddress, 4);
+   invert_block(offsetaddress, 4); //inverting at same address again
   if (1 == flag) {
 
     log_string(sinvert);
   }
 
   uint32_t *er=NULL;
-  er=verify_pattern(memoryblock, a, 'a');
+  er=verify_pattern(memoryblock, a, 'a'); //checking for errors
   for (int i = 0; i < a; i++) {
     if ( * (er + i) != 0) {
       if (1 == flag) {
@@ -190,7 +190,7 @@ flag=Log_disable();
 	}
 
   }
-  free_words(memoryblock);
+  free_words(memoryblock); //freeing memoryblock 
 
   return 0;
 }
