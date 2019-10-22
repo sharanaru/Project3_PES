@@ -35,6 +35,7 @@ Makefile runs ***arm-none-eabi-gcc*** as compiler for FB routines and ***gcc*** 
 + Had to find a random generator which could generate same pattern with seed. Linear congruential generator fit the bill.
 + Had issues on understanding what each described function had to do.  Got answers from slack for most problems. Example: offset function had its parameters changed to include both base address and offset value. 
 + Learned to declare array as static if returning it in a function. 
++	Couldn’t get test cases to perform properly. 
 ## References
 + Slack channel for clearing up questions on function definitions
 + [https://mcuoneclipse.com/2017/07/22/tutorial-makefile-projects-with-eclipse/](https://mcuoneclipse.com/2017/07/22/tutorial-makefile-projects-with-eclipse/)
